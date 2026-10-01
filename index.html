@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAT Content Generator - 20 Prompts</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);padding:20px;line-height:1.6}
+.container{max-width:1200px;margin:0 auto;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+header{background:linear-gradient(135deg,#1e3c72,#2a5298);color:#fff;padding:40px;text-align:center}
+header h1{font-size:2.5em;margin-bottom:10px}
+.controls{padding:20px;background:#f8f9fa;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;border-bottom:2px solid #e9ecef}
+.filter-btn{padding:10px 20px;background:#fff;color:#495057;border-radius:25px;cursor:pointer;border:2px solid #dee2e6;font-size:1em}
+.filter-btn.active,.filter-btn:hover{background:#667eea;color:#fff;border-color:#667eea}
+.grid{padding:40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px}
+.card{border:2px solid #e9ecef;border-radius:15px;padding:24px;position:relative;cursor:pointer;transition:.3s}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.1);border-color:#667eea}
+.card::before{content:'';position:absolute;top:0;left:0;width:100%;height:5px;background:linear-gradient(90deg,#667eea,#764ba2)}
+.num{display:inline-block;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;width:34px;height:34px;border-radius:50%;text-align:center;line-height:34px;font-weight:bold}
+.tag{display:inline-block;padding:4px 14px;background:#e7f3ff;color:#0066cc;border-radius:20px;font-size:.82em;font-weight:600;margin-left:8px}
+.card h3{margin:12px 0 8px;color:#212529}
+.card p{color:#5a6268;font-size:.94em}
+.diff{margin-top:12px;display:flex;gap:5px;align-items:center}
+.dot{width:11px;height:11px;border-radius:50%;background:#dee2e6}
+.dot.on{background:#667eea}
+.copy{margin-top:12px;display:flex;gap:8px}
+.copy button{flex:1;padding:8px;border-radius:8px;border:1px solid #667eea;background:#667eea;color:#fff;cursor:pointer}
+.copy button.ghost{background:#fff;color:#667eea}
+footer{text-align:center;padding:18px;background:#f8f9fa;color:#6c757d;font-size:.9em}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#212529;color:#fff;padding:12px 22px;border-radius:30px;opacity:0;transition:.3s;pointer-events:none}
+.toast.show{opacity:1}
+@media(max-width:700px){.grid{grid-template-columns:1fr;padding:20px}header h1{font-size:1.8em}}
+</style>
+</head>
+<body>
+<div class="container">
+<header><h1>SAT Prompt Bank — 2026 Digital SAT</h1><p>20 copy-paste prompts that generate full lessons (Concept + Strategy + Worked Example + 3 Practice Qs)</p><div style="margin-top:16px;background:rgba(255,255,255,.15);border-radius:12px;padding:14px;text-align:left;font-size:.88em;line-height:1.65"><b>2026 Digital SAT — verified specs baked in:</b> 98 Qs total | RW: 2 x 27 Qs, 32 min each (64 min) | Math: 2 x 22 Qs, 35 min each (70 min) | ~2h14m + 10-min break | Multistage adaptive (Module 2 difficulty set by Module 1) | RW = ONE question per short passage (25-150 words) — no long passages | Math: Desmos on EVERY question, ~11 student-produced responses (no choices), no no-calculator section | Essay discontinued 2021 — NOT tested | Guessing: no penalty. <b>Every prompt below enforces:</b> A. Concept + SAT traps | B. 3-4 step strategy | C. Bluebook-faithful example + why right / why each distractor wrong | D. 3 progressive practice Qs + key.</div></header>
+<div class="controls">
+<button class="filter-btn active" data-filter="all">All (20)</button>
+<button class="filter-btn" data-filter="reading">Reading / Ideas</button>
+<button class="filter-btn" data-filter="writing">Writing / Conventions</button>
+<button class="filter-btn" data-filter="math">Math</button>
+</div>
+<div class="grid" id="grid"></div>
+<footer>SAT Content Generator | Tip: click Copy then paste into ChatGPT / Claude / Gemini</footer>
+</div>
+<div class="toast" id="toast">Copied!</div>
+<script>
+const BASE="You are an expert Digital SAT curriculum developer, psychometrician, and tutor. Generate comprehensive lesson content for the CURRENT 2026 Digital SAT (Bluebook app). Hard rules — NEVER violate: (1) Reading and Writing: ONE question per SHORT passage of 25-150 words. NEVER write 400-750 word passages or multi-question sets — that is the OLD paper SAT. Each RW item = brief text + single MCQ (A-D). (2) Math: Desmos graphing calculator is available on EVERY math question; there is NO no-calculator section. Mark each math Q as [Calculator: Desmos-optimal / Desmos-useful / Mental-math-fastest] and include at least one student-produced response (grid-in, no choices) where noted. (3) NO SAT Essay — it was discontinued in 2021 and is NOT on the Digital SAT; never generate essay tasks. (4) Format: RW 54 Qs (2 modules x 27, 32 min each); Math 44 Qs (2 modules x 22, 35 min each); ~2h14m total + 10-min break; multistage adaptive Module 2; no penalty for guessing. Follow this lesson structure EXACTLY: A. Core Concept (Rule in simple active sentences + SAT Context: traps, hidden answers, distractors). B. 3-4 step strategy usable every time. C. Worked Example (Bluebook-faithful: RW = 25-150 word passage + Q + A-D; Math = MCQ or grid-in; deep-dive why correct is right + why EACH of the 3 distractors is wrong). D. Guided Practice Set (3 distinct Qs, Easy then Medium then Hard; RW mirrors length/vocab; Math includes calculator tag + grid-in where noted; Answer Key at bottom with brief explanations). CONSTRAINTS: Tone encouraging/strategic. Markdown bold for formulas, strategies, correct answers. Exactly ONE undeniably correct answer per Q; distractors = classic mistakes (sign errors, true-but-irrelevant, common-meaning vocab, boundary punctuation errors, etc.). TARGET: ";
+const PROMPTS=[
+{sec:"reading",lvl:2,title:"Command of Evidence: Textual",body:BASE+"RW | Domain: Information and Ideas (~26%) | Skill: Command of Evidence: Textual | Difficulty: Mixed. Single 25-150w text + Q asking which quotation best supports/illustrates the claim. Trap: true-but-irrelevant lines."},
+{sec:"reading",lvl:2,title:"Command of Evidence: Quantitative",body:BASE+"RW | Domain: Information and Ideas (~26%) | Skill: Command of Evidence: Quantitative — short text + table/graph (~25-150w + data) | Difficulty: Mixed. Q asks which data choice uses the data to support/complete the claim. Trap: misread units, half-true numbers."},
+{sec:"reading",lvl:2,title:"Inferences",body:BASE+"RW | Domain: Information and Ideas (~26%) | Skill: Inferences — most logical completion/conclusion | Difficulty: Mixed. Short text, must-be-true only; never use outside knowledge."},
+{sec:"reading",lvl:2,title:"Central Ideas and Details",body:BASE+"RW | Domain: Information and Ideas (~26%) | Skill: Central Ideas and Details (main idea / detail) | Difficulty: Mixed. Single short text + one Q. Traps: too narrow / too broad / true detail that is not the main idea."},
+{sec:"reading",lvl:2,title:"Words in Context",body:BASE+"RW | Domain: Craft and Structure (~28%) | Skill: Words in Context — high-precision vocab in 25-150w passage | Difficulty: Mixed. Blank with A-D; plug-back-in test; trap = common dictionary meaning vs contextual logic."},
+{sec:"reading",lvl:2,title:"Text Structure and Purpose",body:BASE+"RW | Domain: Craft and Structure (~28%) | Skill: Text Structure and Purpose — function of underlined sentence/whole-text structure | Difficulty: Mixed. Stem reveals job (contrast, concede, illustrate); do not summarize."},
+{sec:"reading",lvl:2,title:"Cross-Text Connections",body:BASE+"RW | Domain: Craft and Structure (~28%) | Skill: Cross-Text Connections — Text 1 + Text 2 (each 25-150w) + ONE Q on relationship | Difficulty: Mixed. Map agree/disagree/neither; trap: Text 2 merely repeats vs qualifies."},
+{sec:"writing",lvl:2,title:"Boundaries",body:BASE+"RW | Domain: Standard English Conventions (~26%) | Skill: Boundaries — ONE underlined portion testing comma/splice/run-on/semicolon/colon/dash between clauses | Difficulty: Mixed. Each item = 1-3 sentences + A-D. Independent-vs-dependent clause test; trap = comma splice that sounds fine."},
+{sec:"writing",lvl:2,title:"Form, Structure, and Sense",body:BASE+"RW | Domain: Standard English Conventions (~26%) | Skill: Form, Structure, and Sense — ONE underlined verb/pronoun/modifier/parallelism issue per short text | Difficulty: Mixed. Subject-verb, tense consistency, pronoun clarity, misplaced modifier, parallelism."},
+{sec:"writing",lvl:2,title:"Rhetorical Synthesis",body:BASE+"RW | Domain: Expression of Ideas (~20%) | Skill: Rhetorical Synthesis — student notes bullets + ONE Q with stated goal (e.g., emphasize difference, present result) | Difficulty: Mixed. Filter bullets to goal only; trap = true fact that misses the goal."},
+{sec:"writing",lvl:2,title:"Transitions",body:BASE+"RW | Domain: Expression of Ideas (~20%) | Skill: Transitions — 1-2 sentences with blank + A-D logical connectors | Difficulty: Mixed. Identify relationship FIRST (contrast/cause/continuation), then match word; trap = same-direction vs opposite-direction."},
+{sec:"math",lvl:2,title:"Algebra: Linear Equations and Systems",body:BASE+"Math | Domain: Algebra (~35%, ~15 Qs) | Skill: Linear equations, inequalities, systems (incl. interpret slope/intercept, parallel/no-solution/infinite) | Difficulty: Mixed. Practice = 2 MCQ + 1 grid-in; tag each [Calculator]. Traps: sign error, solving for wrong variable."},
+{sec:"math",lvl:2,title:"Algebra: Functions and Equivalent Expressions",body:BASE+"Math | Domain: Algebra (~35%) | Skill: Function notation/evaluation, interpreting functions, equivalent linear expressions | Difficulty: Mixed. 2 MCQ + 1 grid-in; tag each [Calculator]. Trap: f(a) vs solving f(x)=a."},
+{sec:"math",lvl:2,title:"Advanced Math: Quadratics and Exponentials",body:BASE+"Math | Domain: Advanced Math (~35%, ~15 Qs) | Skill: Quadratic/exponential equations, factoring, completing square, quadratic formula, exponent/polynomial rules, zeros/vertex | Difficulty: Mixed. 2 MCQ + 1 grid-in (must be grid-in); tag [Calculator]. Traps: +/- roots, extraneous, exponent slip."},
+{sec:"math",lvl:2,title:"Advanced Math: Nonlinear Functions and Systems",body:BASE+"Math | Domain: Advanced Math (~35%) | Skill: Nonlinear function graphs, systems with quadratics, equivalent polynomial/rational expressions | Difficulty: Mixed. Desmos-check strategy required; 2 MCQ + 1 grid-in."},
+{sec:"math",lvl:2,title:"Data Analysis: Ratios, Percents, Statistics",body:BASE+"Math | Domain: Problem Solving and Data Analysis (~15%, ~6-7 Qs) | Skill: Ratios/rates/percent change, two-way tables, mean/median/mode/range, scatterplots/linear models, probability | Difficulty: Mixed. Percent-change formula bolded; unit trap; 2 MCQ + 1 grid-in."},
+{sec:"math",lvl:2,title:"Geometry and Trig",body:BASE+"Math | Domain: Geometry and Trigonometry (~15%, ~6-7 Qs) | Skill: Area/volume, Pythagorean/special triangles, congruence/similarity, circles (arc/sector, standard form), right-triangle trig + circle radians | Difficulty: Mixed. Describe any diagram in words; 2 MCQ + 1 grid-in."},
+{sec:"reading",lvl:2,title:"Mixed RW Drill (3 Bluebook Items)",body:BASE+"RW Mixed | Skills: 1x Information and Ideas + 1x Craft and Structure + 1x Expression of Ideas | Difficulty: Easy then Medium then Hard. Each item = 25-150w text + ONE Q (A-D). Label each Q with official domain/skill. Full A-D lesson wrapper."},
+{sec:"math",lvl:2,title:"Mixed Math Drill (3 Bluebook Items)",body:BASE+"Math Mixed | Skills: 1x Algebra + 1x Advanced Math + 1x Data/Geometry | Difficulty: Easy then Medium then Hard. Each = MCQ or grid-in; tag [Calculator]; include exactly 1 grid-in. Full A-D lesson wrapper."},
+{sec:"writing",lvl:2,title:"RW Module Sampler (6 Bluebook Items)",body:BASE+"RW Sampler for a 27-Q / 32-min module | Skills: Evidence-Textual, Words in Context, Boundaries, Transitions, Rhetorical Synthesis, Inferences (one item each, 25-150w each) | Difficulty: Mixed. Treat worked example + 3 practice as 4 of the 6; add 2 bonus items + mini key. Enforce one-Q-per-text."},
+{sec:"math",lvl:2,title:"Math Module Sampler (6 Bluebook Items)",body:BASE+"Math Sampler for a 22-Q / 35-min module | Skills: linear systems, functions, quadratics, ratios/data, geometry, + 1 grid-in | Difficulty: Mixed. Treat worked example + 3 practice as 4 of the 6; add 2 bonus items + mini key. Tag every Q [Calculator]; Desmos steps where faster."},
+{sec:"writing",lvl:2,title:"Universal Regenerator (Any 2026 Skill)",body:BASE+"RW or Math | Domain: [PASTE OFFICIAL DOMAIN] | Skill: [PASTE OFFICIAL SKILL, e.g., Boundaries / Words in Context / Quadratics] | Difficulty: [Easy/Medium/Hard/Mixed]. Recheck: RW = one 25-150w text + one Q; Math = MCQ/grid-in + [Calculator] tag; NO essay, NO long passages, NO no-calculator. Full A-D lesson."},
+];
+const grid=document.getElementById('grid');
+const toast=document.getElementById('toast');
+function dots(n){let s='<div class="diff">';for(let i=1;i<=3;i++)s+='<span class="dot'+(i<=n?' on':'')+'"></span>';return s+'<span style="font-size:.8em;color:#888;margin-left:6px">Level '+n+'/3</span></div>';}
+function render(f){grid.innerHTML='';PROMPTS.forEach((p,i)=>{if(f!=='all'&&p.sec!==f)return;const d=document.createElement('div');d.className='card';d.innerHTML='<span class="num">'+(i+1)+'</span><span class="tag">'+p.sec+'</span><h3>'+p.title+'</h3><p>'+p.body+'</p>'+dots(p.lvl)+'<div class="copy"><button data-i="'+i+'">Copy Prompt</button><button class="ghost" data-g="'+i+'">Generate (demo)</button></div>';grid.appendChild(d);});bind();}
+function bind(){document.querySelectorAll('[data-i]').forEach(b=>b.onclick=e=>{e.stopPropagation();const t=PROMPTS[+b.getAttribute('data-i')].body;navigator.clipboard.writeText(t).then(()=>{toast.textContent='Prompt '+(+b.getAttribute('data-i')+1)+' copied! Paste into any AI.';toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800);});});document.querySelectorAll('[data-g]').forEach(b=>b.onclick=e=>{e.stopPropagation();const p=PROMPTS[+b.getAttribute('data-g')];alert('DEMO OUTPUT for: '+p.title+'\n\nExample question generated from this prompt:\n\nQ: Based on the passage, the author most likely believes... (A)... (B)...\n\nConnect an AI API (OpenAI/Claude) to generate live SAT content here.');});}
+document.querySelectorAll('.filter-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');render(b.dataset.filter);});
+render('all');
+</script>
+</body>
+</html>
+
