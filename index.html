@@ -41,6 +41,7 @@ footer{text-align:center;padding:18px;background:#f8f9fa;color:#6c757d;font-size
 <button class="filter-btn" data-filter="reading">Reading / Ideas</button>
 <button class="filter-btn" data-filter="writing">Writing / Conventions</button>
 <button class="filter-btn" data-filter="math">Math</button>
+<button class="filter-btn" data-filter="mixed">Mixed / Both Sections</button>
 </div>
 <div class="grid" id="grid"></div>
 <footer>SAT Content Generator | Tip: click Copy then paste into ChatGPT / Claude / Gemini</footer>
@@ -70,7 +71,7 @@ const PROMPTS=[
 {sec:"math",lvl:2,title:"Mixed Math Drill (3 Bluebook Items)",body:BASE+"Math Mixed | Skills: 1x Algebra + 1x Advanced Math + 1x Data/Geometry | Difficulty: Easy then Medium then Hard. Each = MCQ A-D (Digital SAT math is all multiple choice); tag [Calculator]. Full A-D lesson wrapper."},
 {sec:"writing",lvl:2,title:"RW Module Sampler (6 Bluebook Items)",body:BASE+"RW Sampler for a 27-Q / 32-min module | Skills: Evidence-Textual, Words in Context, Boundaries, Transitions, Rhetorical Synthesis, Inferences (one item each, paired-passage format) | Difficulty: Mixed. Treat worked example + 3 practice as 4 of the 6; add 2 bonus items + mini key. Enforce one-Q-per-text."},
 {sec:"math",lvl:2,title:"Math Module Sampler (6 Bluebook Items)",body:BASE+"Math Sampler for a 22-Q / 35-min module | Skills: linear systems, functions, quadratics, ratios/data, geometry, + 1 harder application | Difficulty: Mixed. Treat worked example + 3 practice as 4 of the 6; add 2 bonus items + mini key. Tag every Q [Calculator]; Desmos steps where faster."},
-{sec:"writing",lvl:2,title:"Universal Regenerator (Any 2026 Skill)",body:BASE+"RW or Math | Domain: [PASTE OFFICIAL DOMAIN] | Skill: [PASTE OFFICIAL SKILL, e.g., Boundaries / Words in Context / Quadratics] | Difficulty: [Easy/Medium/Hard/Mixed]. Recheck: RW = paired-passage set, one Q per passage; Math = MCQ A-D + [Calculator] tag; NO essay, NO grid-ins, NO no-calculator. Full A-D lesson."},
+{sec:"mixed",lvl:2,title:"Universal Regenerator (Any 2026 Skill)",body:BASE+"FIRST PICK YOUR SECTION, then fill in the rest — a prompt must stay inside ONE section. SECTION A (RW only): Domain: [Info and Ideas / Craft and Structure / Standard English Conventions / Expression of Ideas] | Skill: [e.g., Boundaries / Words in Context]. RW = paired-passage set, ONE Q per passage, MCQ A-D; NO math. SECTION B (Math only): Domain: [Algebra / Advanced Math / Problem Solving and Data Analysis / Geometry and Trigonometry] | Skill: [e.g., Quadratics / Linear Systems]. Math = MCQ A-D + [Calculator] tag; NO passages, NO grammar. Both: NO essay, NO grid-ins, NO no-calculator. Difficulty: [Easy/Medium/Hard/Mixed]. Full A-D lesson wrapper."},
 ];
 const grid=document.getElementById('grid');
 const toast=document.getElementById('toast');
